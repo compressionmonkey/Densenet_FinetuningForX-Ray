@@ -8,7 +8,7 @@ from os import listdir
 from BatchReader import unpickle
 
 location = "/Users/pc/Downloads/cifar-10-batches-py"
-
+ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 # create a list of files in location
 FileList = list(file for file in listdir(location))
 
@@ -23,13 +23,13 @@ def transform_data(location):
 transform_data(location)
 
 
-def SwapImages(Input=location, exchange=):
+def SwapImages(Input=location, exchange=ClinicalReadings):
     for file in listdir(location):
         dict = unpickle(location + '/' + file)
         for iterations in dict:
             print(iterations)
 
-SwapImages(Input, exchange)
+SwapImages(location, ClinicalReadings)
 
 def load_data():
     """Loads CIFAR10 dataset.
