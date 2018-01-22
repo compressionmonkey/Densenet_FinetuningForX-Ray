@@ -9,8 +9,10 @@ from BatchReader import unpickle
 
 location = "/Users/pc/Downloads/cifar-10-batches-py"
 
+# create a list of files in location
 FileList = list(file for file in listdir(location))
-print(FileList)
+
+# Uses FileList to unpickle and create dictionaries out of files not readable
 
 def transform_data(location):
     for file in listdir(location):
@@ -19,6 +21,15 @@ def transform_data(location):
             print(dict)
 
 transform_data(location)
+
+
+def SwapImages(Input=location, exchange=):
+    for file in listdir(location):
+        dict = unpickle(location + '/' + file)
+        for iterations in dict:
+            print(iterations)
+
+SwapImages(Input, exchange)
 
 def load_data():
     """Loads CIFAR10 dataset.

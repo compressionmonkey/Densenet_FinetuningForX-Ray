@@ -4,8 +4,7 @@ def unpickle(file):
         dict = pickle.load(fo, encoding='bytes')
     return dict
 
-# def SwapImages():
-#     for
+
 
 # dict = unpickle('/Users/pc/Downloads/cifar-10-batches-py/data_batch_1')
 # print(dict)
