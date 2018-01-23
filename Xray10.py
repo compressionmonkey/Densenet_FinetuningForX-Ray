@@ -18,18 +18,16 @@ def transform_data(location):
     for file in listdir(location):
         if file.startswith('data_batch_1'):
             Dict = unpickle(location + '/' + file)
-            print(dict)
 
 transform_data(location)
 
 
 def SwapImages(Input=location, exchange=ClinicalReadings):
     for file in listdir(location):
-        Dict = unpickle(location + '/' + file)
-        for iterations in Dict:
-            print(iterations)
-        mydict = dict((k, v if v else '') for k, v in iterations.items())
-        print(mydict)
+        if file.startswith('data_batch_1'):
+            Dict = unpickle(location + '/' + file)
+            mydict = dict((k, v) for k, v in Dict.items())
+            print(mydict)
 SwapImages(location, ClinicalReadings)
 
 def load_data():
