@@ -27,7 +27,7 @@ def SwapImages(Input=location, exchange=ClinicalReadings):
         if file.startswith('data_batch_1'):
             Dict = unpickle(location + '/' + file)
             mydict = dict((k, v) for k, v in Dict.items())
-            print(mydict)
+            
 SwapImages(location, ClinicalReadings)
 
 def load_data():
