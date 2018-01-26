@@ -1,37 +1,22 @@
-from os import listdir
 import os
-# import glob
-#
-# for filename in glob.iglob('/foobar/*.txt'):
-#      print('/foobar/%s' % filename)
 
-from pathlib import Path
-
-Input = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
-FileList = []
-for root, dirs, filenames in os.walk(Input):
-        for f in filenames:
-            Location_File = root + '/' + f
-            FileList.append(Location_File)
-            for counter, value in enumerate(FileList):
-                print(counter, value)
-        for n in FileList.index([Location_File]):
-            with open(FileList[n]) as file:
-                lines = file.readlines()
-                # for Output in lines:
-
-        log = open(Input + '/' + f, 'r')
-
-
-def Crosscheck(Input, Output):
+def CreateDictionary():
+    # We want to create a dictionary to number and list out all of our values i.e patient annotation details
     Input = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
     FileList = []
+    FileDict = {}
     for root, dirs, filenames in os.walk(Input):
-        for r in root:
-            for f in filenames:
-                Location_File = r + '/' + f
-                FileList.append(r + '/' + f)
-                with open(r + '/' +f) as file:
-                    lines = file.readlines()
-                    # for Output in lines:
-Crosscheck("/Users/pc/Downloads/MontgomerySet/ClinicalReadings", "Yes")
+        # Create a number assigned to each filename in list for auto assigned tasks later on
+        for counter, value in enumerate(filenames):
+            # editing a directory properly that is indexed correctly in the list that it is
+            Location_File = root + '/' + filenames[counter]
+
+            FileList.append(Location_File)
+
+            with open(FileList[counter]) as file:
+                lines = file.readlines()
+                try:
+                    FileDict[counter].append(lines)
+                except KeyError:
+                    FileDict[counter] = [lines]
+

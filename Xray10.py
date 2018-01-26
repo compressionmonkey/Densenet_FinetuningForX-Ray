@@ -6,6 +6,8 @@ import numpy as np
 import os
 from os import listdir
 from BatchReader import unpickle
+from Crawler_Annotation import CreateDictionary
+
 
 location = "/Users/pc/Downloads/cifar-10-batches-py"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
@@ -18,17 +20,18 @@ def transform_data(location):
     for file in listdir(location):
         if file.startswith('data_batch_1'):
             Dict = unpickle(location + '/' + file)
+            print(Dict)
 
 transform_data(location)
 
 
-def SwapImages(Input=location, exchange=ClinicalReadings):
+def SwapDictionary(Input=location, exchange=ClinicalReadings):
     for file in listdir(location):
         if file.startswith('data_batch_1'):
             Dict = unpickle(location + '/' + file)
             mydict = dict((k, v) for k, v in Dict.items())
             
-SwapImages(location, ClinicalReadings)
+SwapDictionary(location, ClinicalReadings)
 
 def load_data():
     """Loads CIFAR10 dataset.
