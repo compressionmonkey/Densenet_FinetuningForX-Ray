@@ -16,8 +16,19 @@ FileList = list(file for file in listdir(location))
 
 # Uses FileList to unpickle and create dictionaries out of files not readable
 
+for file in listdir(location):
+    if file.startswith('data_batch_1'):
+        Dict = unpickle(location + '/' + file)
+        print(Dict[b'data'][0])
+        print(len(Dict[b'data']))
 
-
+        w, h = 512, 512
+        data = Dict[b'data'][0]
+        img = Image.new('1', (1064, 1064), data)
+        img.putdata(data)
+        # img = Image.fromarray(data, 'RGB')
+        img.save('my.png')
+        img.show()
 
 
 def transform_data(location):
