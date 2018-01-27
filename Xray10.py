@@ -7,7 +7,7 @@ import os
 from os import listdir
 from BatchReader import unpickle
 from Crawler_Annotation import CreateDictionary
-
+from PIL import Image
 
 location = "/Users/pc/Downloads/cifar-10-batches-py"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
@@ -16,12 +16,16 @@ FileList = list(file for file in listdir(location))
 
 # Uses FileList to unpickle and create dictionaries out of files not readable
 
+
+
+
+
 def transform_data(location):
     for file in listdir(location):
         if file.startswith('data_batch_1'):
             Dict = unpickle(location + '/' + file)
-            print(Dict)
-
+            print(Dict[b'data'][0])
+            print(len(Dict[b'data']))
 transform_data(location)
 
 

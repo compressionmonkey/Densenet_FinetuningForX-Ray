@@ -19,4 +19,5 @@ def CreateDictionary():
                     FileDict[counter].append(lines)
                 except KeyError:
                     FileDict[counter] = [lines]
+                    print(FileDict)
 
