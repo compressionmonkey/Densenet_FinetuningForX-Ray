@@ -8,27 +8,29 @@ from os import listdir
 from BatchReader import unpickle
 from Crawler_Annotation import CreateDictionary
 from PIL import Image
-
+import skimage
 location = "/Users/pc/Downloads/cifar-10-batches-py"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 # create a list of files in location
 FileList = list(file for file in listdir(location))
 
 # Uses FileList to unpickle and create dictionaries out of files not readable
-
 for file in listdir(location):
     if file.startswith('data_batch_1'):
         Dict = unpickle(location + '/' + file)
-        print(Dict[b'data'][0])
-        print(len(Dict[b'data']))
+        D1 = Dict[b'data'][0]
 
-        w, h = 512, 512
-        data = Dict[b'data'][0]
-        img = Image.new('1', (1064, 1064), data)
-        img.putdata(data)
-        # img = Image.fromarray(data, 'RGB')
-        img.save('my.png')
-        img.show()
+        data = [3072]
+        im = Image.new('RGB', (32, 32))
+        for i in range(0, 1024):
+            pixel = (D1[i], D1[i + 1024], D1[i + 2048])
+
+        im.putdata([pixel])
+
+        im.save('test.jpg')
+
+
+
 
 
 def transform_data(location):
