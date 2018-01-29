@@ -21,13 +21,17 @@ for file in listdir(location):
         D1 = Dict[b'data'][0]
 
         data = [3072]
-        im = Image.new('RGB', (32, 32))
+        NewImage = Image.new('RGB', (32, 32))
+
+        PixelList = []
+
         for i in range(0, 1024):
             pixel = (D1[i], D1[i + 1024], D1[i + 2048])
+            PixelList.append(pixel)
 
-        im.putdata([pixel])
+        NewImage.putdata(PixelList)
 
-        im.save('test.jpg')
+        NewImage.save('test.jpg')
 
 
 
