@@ -6,7 +6,7 @@ import numpy as np
 import os
 from os import listdir
 from BatchReader import unpickle
-from Crawler_Annotation import CreateDictionary
+# from Crawler_Annotation import CreateDictionary
 from PIL import Image
 import skimage
 location = "/Users/pc/Downloads/cifar-10-batches-py"
@@ -18,7 +18,7 @@ FileList = list(file for file in listdir(location))
 for file in listdir(location):
     if file.startswith('data_batch_1'):
         Dict = unpickle(location + '/' + file)
-        D1 = Dict[b'data'][0]
+        D1 = Dict[b'data'][3]
 
         data = [3072]
         NewImage = Image.new('RGB', (32, 32))
@@ -28,6 +28,7 @@ for file in listdir(location):
         for i in range(0, 1024):
             pixel = (D1[i], D1[i + 1024], D1[i + 2048])
             PixelList.append(pixel)
+            print(PixelList)
 
         NewImage.putdata(PixelList)
 
