@@ -61,4 +61,19 @@ for i in range(0,32):
     #     print(CorrectList)
     #     break
 print(CorrectList)
+
+NewImage = Image.new('RGB', (32, 32))
+
+PixelList = []
+
+for i in range(0, 32):
+    pixel = (CorrectList[i], CorrectList[i + 10], CorrectList[i + 31])
+    PixelList.append(pixel)
+    print(PixelList)
+
+    NewImage.putdata(PixelList)
+
+    NewImage.save('test1.jpg')
+
+
 im = img
