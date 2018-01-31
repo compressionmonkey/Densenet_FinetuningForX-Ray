@@ -51,12 +51,14 @@ CorrectList = []
 arr = np.array(TestFile)# 32x32x4 array
  # 4-vector, just like above
 for i in range(0,32):
-    while i != 32:
-        CorrectList = arr[i] + arr[i+1]
-    else:
-        i = 31
-        CorrectList = arr[i] + arr[i + 1]
-        print(CorrectList)
-        break
+    CorrectList.extend(arr[i])
 
+    # while i != 32:
+    #     CorrectList = arr[i] + arr[i+1]
+    # else:
+    #     i = 31
+    #     CorrectList = arr[i] + arr[i + 1]
+    #     print(CorrectList)
+    #     break
+print(CorrectList)
 im = img
