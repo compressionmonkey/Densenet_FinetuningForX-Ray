@@ -40,16 +40,18 @@ TestFile = FileList[0]
 import numpy as np
 from PIL import Image
 from scipy import misc
-img = misc.imread(TestFile)
+# img = misc.imread(TestFile)
 
 i_width = 32
 i_height = 32
 
-# img = Image.open(TestFile)
+img = Image.open(TestFile)
 
 TestFile = img.resize((i_height, i_width))
-
+# arr = img.load(TestFile)
 CorrectList = []
+pixels = list(TestFile.getdata())
+print(pixels)
 arr = np.array(TestFile)# 32x32x4 array
  # 4-vector, just like above
 for i in range(0,32):
