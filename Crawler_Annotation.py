@@ -39,11 +39,13 @@ TestFile = FileList[0]
 
 import numpy as np
 from PIL import Image
+from scipy import misc
+img = misc.imread(TestFile)
 
 i_width = 32
 i_height = 32
 
-img = Image.open(TestFile)
+# img = Image.open(TestFile)
 
 TestFile = img.resize((i_height, i_width))
 
@@ -70,10 +72,13 @@ for i in range(0, 32):
     pixel = (CorrectList[i], CorrectList[i + 10], CorrectList[i + 31])
     PixelList.append(pixel)
     print(PixelList)
-
-    NewImage.putdata(PixelList)
-
-    NewImage.save('test1.jpg')
+#
+#     NewImage.putdata(CorrectList)
+# #
+#     NewImage.save('test2.jpg')
 
 
 im = img
+[(0, 18, 0), (0, 25, 0), (0, 62, 2)]
+[0, 18, 0, 0, 25, 0, 0, 62, 2]
+[0,0,0,18,25,62,0,0,2]
