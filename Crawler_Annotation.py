@@ -35,7 +35,7 @@ for root, dirs, filenames in os.walk(Input):
 
         FileList.append(Location_File)
 
-TestFile = FileList[0]
+TestFile = FileList
 
 import numpy as np
 from PIL import Image
@@ -44,7 +44,8 @@ from scipy import misc
 
 i_width = 32
 i_height = 32
-
+n = range(0,10000)
+print(n)
 img = Image.open(TestFile)
 
 TestFile = img.resize((i_height, i_width))
@@ -66,14 +67,19 @@ for i in range(0,32):
     #     break
 print(CorrectList)
 
-NewImage = Image.new('RGB', (32, 32))
+for n in range(0,10000):
+    img = Image.open(TestFile[n])
+pixels = list(img.getdata())
 
-PixelList = []
+imgResized = img.resize((i_height, i_width))
 
-for i in range(0, 32):
-    pixel = (CorrectList[i], CorrectList[i + 10], CorrectList[i + 31])
-    PixelList.append(pixel)
-    print(PixelList)
+imgData = imgResized.getdata()
+pixels = list(imgData)
+
+red,green,blue = zip(*pixels )
+channelArray = red+green+blue
+print(channelArray)
+
 #
 #     NewImage.putdata(CorrectList)
 # #

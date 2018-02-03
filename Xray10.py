@@ -49,8 +49,9 @@ for file in listdir(location):
                 PixelValues = 0
                 # pixel = (D1[n], D1[n + 1024], D1[n + 2048])
                 PixelList.append(PixelValues)
+                print(PixelList)
                 # print(PixelValues)
-            print(PixelList)
+            # print(PixelList)
 
 def transform_data(location):
     for file in listdir(location):
