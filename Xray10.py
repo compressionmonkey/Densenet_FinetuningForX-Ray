@@ -8,6 +8,7 @@ from os import listdir
 from BatchReader import unpickle
 # from Crawler_Annotation import CreateDictionary
 from PIL import Image
+from pandas.core.frame import DataFrame
 import skimage
 location = "/Users/pc/Downloads/cifar-10-batches-py"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
@@ -15,35 +16,48 @@ ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 FileList = list(file for file in listdir(location))
 
 # Uses FileList to unpickle and create dictionaries out of files not readable
+# for file in listdir(location):
+#     if file.startswith('data_batch_1'):
+#         Dict = unpickle(location + '/' + file)
+#         D1 = Dict[b'data'][3]
+#
+#         data = [3072]
+#         NewImage = Image.new('RGB', (32, 32))
+#
+#         PixelList = []
+#
+#         for i in range(0, 1024):
+#             pixel = (D1[i], D1[i + 1024], D1[i + 2048])
+#             PixelList.append(pixel)
+#             # print(PixelList)
+#
+#         NewImage.putdata(PixelList)
+#
+#         NewImage.save('test.jpg')
+
+
+# Create a transformer to convert all batch images into black
+
 for file in listdir(location):
     if file.startswith('data_batch_1'):
         Dict = unpickle(location + '/' + file)
-        D1 = Dict[b'data'][3]
-
-        data = [3072]
-        NewImage = Image.new('RGB', (32, 32))
-
+        D1 = Dict[b'data']
         PixelList = []
-
-        for i in range(0, 1024):
-            pixel = (D1[i], D1[i + 1024], D1[i + 2048])
-            PixelList.append(pixel)
+        for n in range(0,10000):
+            # Index our images
+            for PixelValues in D1[n]:
+                PixelValues = 0
+                # pixel = (D1[n], D1[n + 1024], D1[n + 2048])
+                PixelList.append(PixelValues)
+                # print(PixelValues)
             print(PixelList)
-
-        NewImage.putdata(PixelList)
-
-        NewImage.save('test.jpg')
-
-
-
-
 
 def transform_data(location):
     for file in listdir(location):
         if file.startswith('data_batch_1'):
             Dict = unpickle(location + '/' + file)
-            print(Dict[b'data'][0])
-            print(len(Dict[b'data']))
+            # print(Dict[b'data'][0])
+            # print(len(Dict[b'data']))
 transform_data(location)
 
 
