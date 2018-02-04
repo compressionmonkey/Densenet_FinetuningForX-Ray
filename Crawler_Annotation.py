@@ -1,4 +1,8 @@
 import os
+from os import listdir
+from PIL import Image
+from BatchReader import unpickle
+import pickle
 # check url https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4256233/ for datasets
 def CreateDictionary():
     # We want to create a dictionary to number and list out all of our values i.e patient annotation details
@@ -36,6 +40,36 @@ for root, dirs, filenames in os.walk(Input):
         FileList.append(Location_File)
 
 TestFile = FileList
+
+imageInput = "/Users/pc/Downloads/MontgomerySet/CXR_png"
+FileList = []
+FileDict = {}
+for file in listdir(imageInput):
+        fileName = imageInput + '/' + file
+        FileList.append(fileName)
+        if fileName != "/Users/pc/Downloads/MontgomerySet/CXR_png/Thumbs.db":
+            for imgIndex in range(0,10000):
+                # Index our images
+                img = Image.open(fileName)
+                print(img)
+                # image = d1[imgIndex]
+                # print(image)
+
+            # pixels = list(img.getdata())
+            # print(pixels)
+                imgResized = img.resize((32, 32))
+                imgData = imgResized.getdata()
+                pixels = list(imgData)
+                red, green, blue = zip(*pixels)
+                channelArray = red + green + blue
+                image = list(channelArray)
+                print(image)
+            # for chanelValueIndex in range(0, 3072):
+            # chanelValue = image[chanelValueIndex]
+        else:
+            break
+
+
 
 import numpy as np
 from PIL import Image
@@ -79,14 +113,3 @@ pixels = list(imgData)
 red,green,blue = zip(*pixels )
 channelArray = red+green+blue
 print(channelArray)
-
-#
-#     NewImage.putdata(CorrectList)
-# #
-#     NewImage.save('test2.jpg')
-
-
-im = img
-[(0, 18, 0), (0, 25, 0), (0, 62, 2)]
-[0, 18, 0, 0, 25, 0, 0, 62, 2]
-[0,0,0,18,25,62,0,0,2]

@@ -17,39 +17,20 @@ ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 FileList = list(file for file in listdir(location))
 
 # Uses FileList to unpickle and create dictionaries out of files not readable
-# for file in listdir(location):
-#     if file.startswith('data_batch_1'):
-#         Dict = unpickle(location + '/' + file)
-#         D1 = Dict[b'data'][3]
-#
-#         data = [3072]
-#         NewImage = Image.new('RGB', (32, 32))
-#
-#         PixelList = []
-#
-#         for i in range(0, 1024):
-#             pixel = (D1[i], D1[i + 1024], D1[i + 2048])
-#             PixelList.append(pixel)
-#             # print(PixelList)
-#
-#         NewImage.putdata(PixelList)
-#
-#         NewImage.save('test.jpg')
-
 
 # Create a transformer to convert all batch images into black
 
 for file in listdir(location):
     if file.startswith('data_batch_1'):
         fileName = location + '/' + file
-        dict = unpickle(fileName)
+        dict = unpickle(fileNacnme)
         d1 = dict[b'data']
         pixelList = []
         for imgIndex in range(0,10000):
             # Index our images
             image = d1[imgIndex]
             print(image)
-            img = Image.open('test.jpg')
+            img = getImage(imgIndex)
             pixels = list(img.getdata())
 
             imgResized = img.resize((32, 32))
@@ -72,37 +53,7 @@ for file in listdir(location):
         pickle_out = open(fileName, "wb")
         pickle.dump(dict, pickle_out)
         pickle_out.close()
-            # for image in d1[index]:
-            #     for numIndex, value in enumerate(d1[index]):
-            #         if value.strip() != d1[index][numIndex]:
-            #             d1[index][numIndex] = 0
-            #             print(d1[index])
-                    # if number != 2:
-                    #     Dekpa = 0
-                    #     print(D1[images])
-                    # else:
-                    #     break
-                        # D1[n].append(Dekpa)
-                    # print(D1[n])
-                # print(PixelValues)
-            # print(PixelList)
 
-def transform_data(location):
-    for file in listdir(location):
-        if file.startswith('data_batch_1'):
-            Dict = unpickle(location + '/' + file)
-            # print(Dict[b'data'][0])
-            # print(len(Dict[b'data']))
-transform_data(location)
-
-
-# def SwapDictionary(Input=location, exchange=ClinicalReadings):
-#     for file in listdir(location):
-#         if file.startswith('data_batch_1'):
-#             Dict = unpickle(location + '/' + file)
-#             mydict = dict((k, v) for k, v in Dict.items())
-#
-# SwapDictionary(location, ClinicalReadings)
 
 def load_data():
     """Loads CIFAR10 dataset.
