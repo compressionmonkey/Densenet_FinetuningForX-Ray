@@ -10,6 +10,7 @@ from BatchReader import unpickle
 from PIL import Image
 from pandas.core.frame import DataFrame
 import skimage
+import pickle
 location = "/Users/pc/Downloads/cifar-10-batches-py"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 # create a list of files in location
@@ -40,16 +41,42 @@ FileList = list(file for file in listdir(location))
 
 for file in listdir(location):
     if file.startswith('data_batch_1'):
-        Dict = unpickle(location + '/' + file)
-        D1 = Dict[b'data']
-        PixelList = []
-        for images in range(0,10000):
+        fileName = location + '/' + file
+        dict = unpickle(fileName)
+        d1 = dict[b'data']
+        pixelList = []
+        for imgIndex in range(0,10000):
             # Index our images
-            for PixelValues in D1[images]:
-                for number, value in enumerate(D1[images]):
-                    if value.strip() != D1[images][number]:  # leading or trailing whitespace?
-                        D1[images][number] = 0
-                        print(D1[images])
+            image = d1[imgIndex]
+            print(image)
+            img = Image.open('test.jpg')
+            pixels = list(img.getdata())
+
+            imgResized = img.resize((32, 32))
+
+            imgData = imgResized.getdata()
+            pixels = list(imgData)
+
+            red, green, blue = zip(*pixels)
+            channelArray = red + green + blue
+            image =list(channelArray)
+            # for chanelValueIndex in range(0, 3072):
+            #     chanelValue = image[chanelValueIndex]
+            #     #print(chanelValue)
+            #     #if(chanelValue==0):
+            #     #    print("File transformed already")
+            #     image[chanelValueIndex] = 0
+            print(imgIndex)
+            print(image)
+        #ununpickle
+        pickle_out = open(fileName, "wb")
+        pickle.dump(dict, pickle_out)
+        pickle_out.close()
+            # for image in d1[index]:
+            #     for numIndex, value in enumerate(d1[index]):
+            #         if value.strip() != d1[index][numIndex]:
+            #             d1[index][numIndex] = 0
+            #             print(d1[index])
                     # if number != 2:
                     #     Dekpa = 0
                     #     print(D1[images])
@@ -69,13 +96,13 @@ def transform_data(location):
 transform_data(location)
 
 
-def SwapDictionary(Input=location, exchange=ClinicalReadings):
-    for file in listdir(location):
-        if file.startswith('data_batch_1'):
-            Dict = unpickle(location + '/' + file)
-            mydict = dict((k, v) for k, v in Dict.items())
-            
-SwapDictionary(location, ClinicalReadings)
+# def SwapDictionary(Input=location, exchange=ClinicalReadings):
+#     for file in listdir(location):
+#         if file.startswith('data_batch_1'):
+#             Dict = unpickle(location + '/' + file)
+#             mydict = dict((k, v) for k, v in Dict.items())
+#
+# SwapDictionary(location, ClinicalReadings)
 
 def load_data():
     """Loads CIFAR10 dataset.
