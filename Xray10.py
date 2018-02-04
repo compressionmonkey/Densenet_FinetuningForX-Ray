@@ -43,13 +43,20 @@ for file in listdir(location):
         Dict = unpickle(location + '/' + file)
         D1 = Dict[b'data']
         PixelList = []
-        for n in range(0,10000):
+        for images in range(0,10000):
             # Index our images
-            for PixelValues in D1[n]:
-                PixelValues = 0
-                # pixel = (D1[n], D1[n + 1024], D1[n + 2048])
-                PixelList.append(PixelValues)
-                print(PixelList)
+            for PixelValues in D1[images]:
+                for number, value in enumerate(D1[images]):
+                    if value.strip() != D1[images][number]:  # leading or trailing whitespace?
+                        D1[images][number] = 0
+                        print(D1[images])
+                    # if number != 2:
+                    #     Dekpa = 0
+                    #     print(D1[images])
+                    # else:
+                    #     break
+                        # D1[n].append(Dekpa)
+                    # print(D1[n])
                 # print(PixelValues)
             # print(PixelList)
 
