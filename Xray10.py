@@ -6,11 +6,8 @@ import numpy as np
 import os
 from os import listdir
 from BatchReader import unpickle
-# from Crawler_Annotation import CreateDictionary
-from PIL import Image
-from pandas.core.frame import DataFrame
-import skimage
 import pickle
+from imageTransformer import getImage
 location = "/Users/pc/Downloads/cifar-10-batches-py"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 # create a list of files in location
@@ -23,13 +20,10 @@ FileList = list(file for file in listdir(location))
 for file in listdir(location):
     if file.startswith('data_batch_1'):
         fileName = location + '/' + file
-        dict = unpickle(fileNacnme)
+        dict = unpickle(fileName)
         d1 = dict[b'data']
         pixelList = []
-        for imgIndex in range(0,10000):
-            # Index our images
-            image = d1[imgIndex]
-            print(image)
+        for imgIndex in range(1,10000):
             img = getImage(imgIndex)
             pixels = list(img.getdata())
 
@@ -38,17 +32,13 @@ for file in listdir(location):
             imgData = imgResized.getdata()
             pixels = list(imgData)
 
+
             red, green, blue = zip(*pixels)
             channelArray = red + green + blue
             image =list(channelArray)
-            # for chanelValueIndex in range(0, 3072):
-            #     chanelValue = image[chanelValueIndex]
-            #     #print(chanelValue)
-            #     #if(chanelValue==0):
-            #     #    print("File transformed already")
-            #     image[chanelValueIndex] = 0
+
             print(imgIndex)
-            print(image)
+            print(pixels)
         #ununpickle
         pickle_out = open(fileName, "wb")
         pickle.dump(dict, pickle_out)

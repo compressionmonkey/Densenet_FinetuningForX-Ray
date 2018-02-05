@@ -4,4 +4,4 @@ imageInput = "/Users/pc/Downloads/MontgomerySet/CXR_png"
 listOfFiles = listdir(imageInput)
 
 def getImage(indexImage):
-    return Image.open(listOfFiles[indexImage])
+    return Image.open(imageInput + '/' + listOfFiles[indexImage])
