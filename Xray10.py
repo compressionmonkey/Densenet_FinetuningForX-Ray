@@ -28,8 +28,9 @@ for file in listdir(location):
             img = getImage(imgIndex)
             if img != None:
 
-                if imgIndex >= 337:
+                if imgIndex >= 137:
                     numberToGo = 10000 - imgIndex
+                    indexImage = 0
                     imgIndex = 0
                     numberToGo += 1
                     print("Over 137")
