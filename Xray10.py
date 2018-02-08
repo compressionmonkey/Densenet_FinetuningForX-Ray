@@ -28,28 +28,24 @@ for file in listdir(location):
             img = getImage(imgIndex)
             if img != None:
 
+                if imgIndex >= 337:
+                    numberToGo = 10000 - imgIndex
+                    imgIndex = 0
+                    numberToGo += 1
+                    print("Over 137")
+
                 pixels = img.getdata()
 
                 imgConvert = img.convert("RGB")
                 imgResized = imgConvert.resize((32, 32))
 
                 imgData = list(imgResized.getdata())
-                # print(imgData)
-                # imgConvert.save('JK.png')
-                # image = pixels.convert('RGB')
-                # image = pixels.resize((32, 32), Image.ANTIALIAS)
-                # image = image.convert('RGB', palette=Image.ADAPTIVE, colors=256)
-                # image.save('out.png')
-                # pixels = imgData
-
 
                 red, green, blue = zip(*imgData)
                 channelArray = red + green + blue
                 image =list(channelArray)
 
                 print(imgIndex)
-
-                # if imgIndex >= len(listOfFiles[indexImage])
 
         #ununpickle
         pickle_out = open(fileName, "wb")
