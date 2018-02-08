@@ -24,34 +24,29 @@ for file in listdir(location):
         dict = unpickle(fileName)
         d1 = dict[b'data']
         pixelList = []
-        for imgIndex in range(0,10000):
-            img = getImage(imgIndex)
-            if img != None:
 
-                if imgIndex >= 137:
-                    numberToGo = 10000 - imgIndex
-                    indexImage = 0
-                    imgIndex = 0
-                    numberToGo += 1
-                    print("Over 137")
 
-                pixels = img.getdata()
+for imgIndex in range(0,10000):
+    img = getImage(imgIndex)
+    if img != None:
 
-                imgConvert = img.convert("RGB")
-                imgResized = imgConvert.resize((32, 32))
+        pixels = img.getdata()
 
-                imgData = list(imgResized.getdata())
+        imgConvert = img.convert("RGB")
+        imgResized = imgConvert.resize((32, 32))
 
-                red, green, blue = zip(*imgData)
-                channelArray = red + green + blue
-                image =list(channelArray)
+        imgData = list(imgResized.getdata())
 
-                print(imgIndex)
+        red, green, blue = zip(*imgData)
+        channelArray = red + green + blue
+        image =list(channelArray)
 
-        #ununpickle
-        pickle_out = open(fileName, "wb")
-        pickle.dump(dict, pickle_out)
-        pickle_out.close()
+        print(imgIndex)
+
+#ununpickle
+pickle_out = open(fileName, "wb")
+pickle.dump(dict, pickle_out)
+pickle_out.close()
 
 
 def load_data():

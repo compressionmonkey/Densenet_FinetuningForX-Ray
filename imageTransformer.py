@@ -9,9 +9,16 @@ def getImage(indexImage):
     pngFormat = '.png'
     if fileName.endswith(pngFormat):
         returnValue = Image.open(imageInput + '/' + listOfFiles[indexImage])
-    # elif fileName.endswith('Test.jpg'):
-    #     returnValue = Image.open(imageInput + '/' + listOfFiles[indexImage])
+
+        if indexImage >= 137:
+            numberToGo = 10000 - indexImage
+            returnValue = Image.open(imageInput + '/' + listOfFiles[1])
+            indexImage = 0
+            # imgIndex = 0
+            numberToGo += 1
+            print("Over 137")
+
     else:
         print('Invalid file')
-
+    print(returnValue)
     return returnValue
