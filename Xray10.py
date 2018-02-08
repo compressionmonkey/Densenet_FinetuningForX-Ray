@@ -8,6 +8,7 @@ from os import listdir
 from BatchReader import unpickle
 import pickle
 from imageTransformer import getImage
+from PIL import Image
 location = "/Users/pc/Downloads/cifar-10-batches-py"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 # create a list of files in location
@@ -23,22 +24,33 @@ for file in listdir(location):
         dict = unpickle(fileName)
         d1 = dict[b'data']
         pixelList = []
-        for imgIndex in range(1,10000):
+        for imgIndex in range(0,10000):
             img = getImage(imgIndex)
-            pixels = list(img.getdata())
+            if img != None:
 
-            imgResized = img.resize((32, 32))
+                pixels = img.getdata()
 
-            imgData = imgResized.getdata()
-            pixels = list(imgData)
+                imgConvert = img.convert("RGB")
+                imgResized = imgConvert.resize((32, 32))
+
+                imgData = list(imgResized.getdata())
+                # print(imgData)
+                # imgConvert.save('JK.png')
+                # image = pixels.convert('RGB')
+                # image = pixels.resize((32, 32), Image.ANTIALIAS)
+                # image = image.convert('RGB', palette=Image.ADAPTIVE, colors=256)
+                # image.save('out.png')
+                # pixels = imgData
 
 
-            red, green, blue = zip(*pixels)
-            channelArray = red + green + blue
-            image =list(channelArray)
+                red, green, blue = zip(*imgData)
+                channelArray = red + green + blue
+                image =list(channelArray)
 
-            print(imgIndex)
-            print(pixels)
+                print(imgIndex)
+
+                # if imgIndex >= len(listOfFiles[indexImage])
+
         #ununpickle
         pickle_out = open(fileName, "wb")
         pickle.dump(dict, pickle_out)
