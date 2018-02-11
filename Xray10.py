@@ -22,16 +22,29 @@ for file in listdir(location):
     if file.startswith('data_batch_1'):
         fileName = location + '/' + file
         dict = unpickle(fileName)
-        d1 = dict[b'data']
+        d1 = dict[b'data'][0]
+        print(len(d1))
+        NewImage = Image.new('RGB', (32, 32))
+        print(d1[0])
         pixelList = []
 
+        for i in range(0, 1024):
+            pixel = (d1[i], d1[i + 1024], d1[i + 2048])
+            pixelList.append(pixel)
+        print(pixelList)
+        NewImage.putdata(d1)
+        NewImage.save('test4.jpg')
+        for x in d1:
+            print(x)
+        pixelList = []
 
-for imgIndex in range(0,10000):
+imageList = []
+for imgIndex in range(0,10008):
     img = getImage(imgIndex)
     if img != None:
 
-        pixels = img.getdata()
-
+        # pixels = img.getdata()
+        #if imgIndex <= 10:
         imgConvert = img.convert("RGB")
         imgResized = imgConvert.resize((32, 32))
 
@@ -40,12 +53,14 @@ for imgIndex in range(0,10000):
         red, green, blue = zip(*imgData)
         channelArray = red + green + blue
         image =list(channelArray)
-
         print(imgIndex)
-
-#ununpickle
+        imageList.append(image)
+print(imageList)
+d1 = imageList
+dict[b'data'] = d1
 pickle_out = open(fileName, "wb")
 pickle.dump(dict, pickle_out)
+
 pickle_out.close()
 
 
