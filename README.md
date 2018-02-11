@@ -4,6 +4,9 @@ We hope to achieve an chest Xray detecting system
 
 
 for image viewer, write code:
+
+
+
 d1 = dict[b'data'][1]
         print(d1)
         NewImage = Image.new('RGB', (32, 32))
