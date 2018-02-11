@@ -22,8 +22,8 @@ for file in listdir(location):
     if file.startswith('data_batch_1'):
         fileName = location + '/' + file
         dict = unpickle(fileName)
-        d1 = dict[b'data'][0]
-        print(len(d1))
+        d1 = dict[b'data'][1]
+        print(d1)
         NewImage = Image.new('RGB', (32, 32))
         print(d1[0])
         pixelList = []
@@ -32,8 +32,8 @@ for file in listdir(location):
             pixel = (d1[i], d1[i + 1024], d1[i + 2048])
             pixelList.append(pixel)
         print(pixelList)
-        NewImage.putdata(d1)
-        NewImage.save('test4.jpg')
+        NewImage.putdata(pixelList)
+        NewImage.save('test5.jpg')
         for x in d1:
             print(x)
         pixelList = []
