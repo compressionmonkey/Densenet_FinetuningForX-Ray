@@ -37,6 +37,7 @@ for root, dirs, filenames in os.walk(Input):
     for counter, value in enumerate(filenames):
             # editing a directory properly that is indexed correctly in the list that it is
         if filenames[counter].endswith(fileType):
-            Location_File = filenames[counter][12]
+            Location_File = int(filenames[counter][12])
 
             FileList.append(Location_File)
+print(len(FileList))
