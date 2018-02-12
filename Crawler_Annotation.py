@@ -1,11 +1,21 @@
 import os
 from os import listdir
-from PIL import Image
-from BatchReader import unpickle
-import pickle
+fileDir = "/Users/pc/Downloads/MontgomerySet/CXR_png"
+listOfFiles = listdir(fileDir)
 # check url https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4256233/ for datasets
-def CreateDictionary():
+def CreateDictionary(indexFiles):
     # We want to create a dictionary to number and list out all of our values i.e patient annotation details
+    returnValue = None
+    fileName = listOfFiles[indexFiles]
+    fileType = ".png"
+    if fileName.endswith(fileType):
+        returnValue = int(fileName)
+    else:
+        print(fileName)
+        print('Invalid file')
+
+    return returnValue
+
     Input = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
     FileList = []
     FileDict = {}
@@ -27,8 +37,7 @@ def CreateDictionary():
 
 
 # Test for converting Xray into Dictionary for pickling
-fileDir = "/Users/pc/Downloads/MontgomerySet/CXR_png"
-listOfFiles = listdir(fileDir)
+
 
 def TBclassification(indexAnnot):
     returnValue = None

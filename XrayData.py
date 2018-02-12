@@ -29,7 +29,22 @@ pickle.dump(dict, pickle_out)
 
 pickle_out.close()
 
+tbList = []
+for file in listdir(location):
+    if file.startswith('data_batch_1'):
+        fileName = location + '/' + file
+        dict = unpickle(fileName)
+        d1 = dict[b'labels']
+        for classIndex in range(0, 10008):
+            tbIndex = TBclassification(classIndex)
+            tbList.append(tbIndex)
 
+d1 = tbList
+dict[b'labels'] = d1
+pickle_out = open(fileName, "wb")
+pickle.dump(dict, pickle_out)
+
+pickle_out.close()
 
 imageList = []
 for imgIndex in range(0,10008):
