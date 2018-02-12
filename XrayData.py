@@ -2,9 +2,9 @@ from os import listdir
 from BatchReader import unpickle
 import pickle
 from imageTransformer import getImage
-from PIL import Image
+from Crawler_Annotation import TBclassification
 
-location = "/Users/pc/Downloads/cifar-10-batches-py-copy"
+location = "/Users/pc/Downloads/cifar-10-batches-py"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 # create a list of files in location
 FileList = list(file for file in listdir(location))
@@ -12,14 +12,22 @@ FileList = list(file for file in listdir(location))
 # Uses FileList to unpickle and create dictionaries out of files not readable
 
 # Create a transformer to convert all batch images into black
-
+tbList = []
 for file in listdir(location):
     if file.startswith('data_batch_1'):
         fileName = location + '/' + file
         dict = unpickle(fileName)
-        print(dict)
-        d1 = dict[b'data'][1]
+        d1 = dict[b'labels']
+        for classIndex in range(0, 10008):
+            tbIndex = TBclassification(classIndex)
+            tbList.append(tbIndex)
 
+d1 = tbList
+dict[b'labels'] = d1
+pickle_out = open(fileName, "wb")
+pickle.dump(dict, pickle_out)
+
+pickle_out.close()
 
 
 
@@ -38,7 +46,8 @@ for imgIndex in range(0,10008):
         image =list(channelArray)
         print(imgIndex)
         imageList.append(image)
-print(imageList)
+
+# d1 = dict[b'data']
 d1 = imageList
 dict[b'data'] = d1
 pickle_out = open(fileName, "wb")

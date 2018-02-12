@@ -27,17 +27,18 @@ def CreateDictionary():
 
 
 # Test for converting Xray into Dictionary for pickling
+fileDir = "/Users/pc/Downloads/MontgomerySet/CXR_png"
+listOfFiles = listdir(fileDir)
 
-Input = "/Users/pc/Downloads/MontgomerySet/CXR_png"
-FileList = []
-FileDict = {}
-fileType = ".png"
-for root, dirs, filenames in os.walk(Input):
- # Create a number assigned to each filename in list for auto assigned tasks later on
-    for counter, value in enumerate(filenames):
-            # editing a directory properly that is indexed correctly in the list that it is
-        if filenames[counter].endswith(fileType):
-            Location_File = int(filenames[counter][12])
+def TBclassification(indexAnnot):
+    returnValue = None
+    fileName = listOfFiles[indexAnnot]
+    fileType = ".png"
+    if fileName.endswith(fileType):
+        returnValue = int(fileName[12])
+    else:
+        print(fileName)
+        print('Invalid file')
+        TBclassification(indexAnnot+1)
 
-            FileList.append(Location_File)
-print(len(FileList))
+    return returnValue
