@@ -3,6 +3,7 @@ import numpy as np
 
 from keras import backend as K
 from keras.utils import np_utils
+import Xray10
 
 nb_train_samples = 3000 # 3000 training samples
 nb_valid_samples = 100 # 100 validation samples

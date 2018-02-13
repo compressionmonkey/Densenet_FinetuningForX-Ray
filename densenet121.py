@@ -14,7 +14,7 @@ from sklearn.metrics import log_loss
 
 from custom_layers.scale_layer import Scale
 
-from load_cifar10 import load_cifar10_data
+from load_Xray import load_XrayData
 
 def densenet121_model(img_rows, img_cols, color_type=1, nb_dense_block=4, growth_rate=32, nb_filter=64, reduction=0.5, dropout_rate=0.0, weight_decay=1e-4, num_classes=None):
     '''
@@ -213,7 +213,7 @@ if __name__ == '__main__':
     nb_epoch = 1
 
     # Load Cifar10 data. Please implement your own load_data() module for your own dataset
-    X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
+    X_train, Y_train, X_valid, Y_valid = load_XrayData(img_rows, img_cols)
 
     # Load our model
     model = densenet121_model(img_rows=img_rows, img_cols=img_cols, color_type=channel, num_classes=num_classes)

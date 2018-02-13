@@ -15,7 +15,7 @@ def load_data():
     """
     Image = np.load('/Users/pc/Downloads/MontgomerySet/CXR_png')
     ClinicalReading = np.load('/Users/pc/Downloads/MontgomerySet/ClinicalReadings')
-    dirname = 'cifar-10-batches-py'
+    dirname = '/Users/pc/Downloads/cifar-10-batches-py'
     origin = 'https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz'
     path = get_file(dirname, origin=origin, untar=True)
 

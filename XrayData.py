@@ -3,15 +3,36 @@ from BatchReader import unpickle
 import pickle
 from imageTransformer import getImage
 from Crawler_Annotation import TBclassification
-
+from Crawler_Annotation import CreateFilename
 location = "/Users/pc/Downloads/cifar-10-batches-py"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 # create a list of files in location
-FileList = list(file for file in listdir(location))
+fileList = list(file for file in listdir(location))
 
-# Uses FileList to unpickle and create dictionaries out of files not readable
+class FileDir:
+    def __init__(self, fileList, file, fileName):
+        self.FileList = fileList
+        self.file = file
+        self.fileName = fileName
+    def checkbatchandunpickle(self, filerequired, wantedSec):
+        for file in listdir(location):
+            if file.startswith(filerequired):
+                fileName = location + '/' + file
+                dict = unpickle(fileName)
 
-# Create a transformer to convert all batch images into black
+                R = dict[wantedSec]
+
+        return dict, R
+
+FileLiSSSST = FileDir(fileList, None, None)
+unpickledfile, Data = FileLiSSSST.checkbatchandunpickle("data_batch_1", b'labels')
+print(Data)
+for file in listdir(location):
+    if file.startswith('data_batch_1'):
+        fileName = location + '/' + file
+        dict = unpickle(fileName)
+        d1 = dict[b'labels']
+
 tbList = []
 for file in listdir(location):
     if file.startswith('data_batch_1'):
@@ -29,18 +50,18 @@ pickle.dump(dict, pickle_out)
 
 pickle_out.close()
 
-tbList = []
+fileList = []
 for file in listdir(location):
     if file.startswith('data_batch_1'):
         fileName = location + '/' + file
         dict = unpickle(fileName)
-        d1 = dict[b'labels']
-        for classIndex in range(0, 10008):
-            tbIndex = TBclassification(classIndex)
-            tbList.append(tbIndex)
+        d1 = dict[b'filenames']
+        for fileIndex in range(0, 10008):
+            fileXrayIndex = CreateFilename(fileIndex)
+            fileXrayIndex.append(fileList)
 
-d1 = tbList
-dict[b'labels'] = d1
+d1 = fileList
+dict[b'filenames'] = d1
 pickle_out = open(fileName, "wb")
 pickle.dump(dict, pickle_out)
 

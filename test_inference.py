@@ -6,9 +6,9 @@ from keras.optimizers import SGD
 import keras.backend as K
 
 # We only test DenseNet-121 in this script for demo purpose
-from densenet121 import DenseNet 
+from densenet121 import densenet121_model
 
-im = cv2.resize(cv2.imread('resources/cat.jpg'), (224, 224)).astype(np.float32)
+im = cv2.resize(cv2.imread('resources/1.jpg'), (224, 224)).astype(np.float32)
 #im = cv2.resize(cv2.imread('shark.jpg'), (224, 224)).astype(np.float32)
 
 # Subtract mean pixel and multiple by scaling constant 
@@ -31,7 +31,7 @@ else:
 im = np.expand_dims(im, axis=0)
 
 # Test pretrained model
-model = DenseNet(reduction=0.5, classes=1000, weights_path=weights_path)
+model = densenet121_model(reduction=0.5, classes=10, weights_path=weights_path)
 
 sgd = SGD(lr=1e-2, decay=1e-6, momentum=0.9, nesterov=True)
 model.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['accuracy'])
