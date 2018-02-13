@@ -10,10 +10,9 @@ ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 fileList = list(file for file in listdir(location))
 
 class FileDir:
-    def __init__(self, fileList, file, fileName):
+    def __init__(self, fileList):
         self.FileList = fileList
-        self.file = file
-        self.fileName = fileName
+        # self.fileName = fileName
     def checkbatchandunpickle(self, filerequired, wantedSec):
         for file in listdir(location):
             if file.startswith(filerequired):
@@ -29,31 +28,42 @@ class FileDir:
             tbIndex = TBclassification(classIndex)
             tbList.append(tbIndex)
 
+    def swapTBList(self, filename):
+        wantPart = tbList
+        dict[b'labels'] = wantPart
+        pickle_out = open(fileName, "wb")
+        pickle.dump(dict, pickle_out)
+        pickle_out.close()
 
-FileLiSSSST = FileDir(fileList, None, None)
+    def createXrayList(self):
+        # d1 = dict[b'filenames']
+        for fileIndex in range(0, 10008):
+            fileXrayIndex = CreateFilename(fileIndex)
+            fileXrayIndex.append(fileList)
+
+FileLiSSSST = FileDir(fileList)
 unpickledfile, Data = FileLiSSSST.checkbatchandunpickle("data_batch_1", b'labels')
 
 tbList = []
 
-zoom = FileLiSSSST.createTBList()
-print(zoom)
-for file in listdir(location):
-    if file.startswith('data_batch_1'):
-        fileName = location + '/' + file
-        dict = unpickle(fileName)
-        d1 = dict[b'labels']
-        for classIndex in range(0, 10008):
-            tbIndex = TBclassification(classIndex)
-            tbList.append(tbIndex)
+FileLiSSSST.createTBList()
+print(tbList)
 
-d1 = tbList
-dict[b'labels'] = d1
-pickle_out = open(fileName, "wb")
-pickle.dump(dict, pickle_out)
+# d1 = tbList
+# dict[b'labels'] = d1
 
-pickle_out.close()
+FileLiSSSST.swapTBList(location + "/data_batch_1")
+
+# pickle_out = open(fileName, "wb")
+# pickle.dump(dict, pickle_out)
+#
+# pickle_out.close()
 
 fileList = []
+FileLiSSSST.createXrayList()
+print(fileList)
+
+
 for file in listdir(location):
     if file.startswith('data_batch_1'):
         fileName = location + '/' + file

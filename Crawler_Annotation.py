@@ -10,11 +10,12 @@ def CreateFilename(indexFiles):
     fileType = ".png"
     if fileName.endswith(fileType):
         returnValue = int(fileName)
+        return returnValue
     else:
         print(fileName)
         print('Invalid file')
 
-    return returnValue
+
 
     # Input = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
     # FileList = []
