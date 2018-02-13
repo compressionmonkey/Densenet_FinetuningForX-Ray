@@ -18,22 +18,25 @@ class FileDir:
         for file in listdir(location):
             if file.startswith(filerequired):
                 fileName = location + '/' + file
-                dict = unpickle(fileName)
+                dictData = unpickle(fileName)
 
-                R = dict[wantedSec]
+                wantPart = dictData[wantedSec]
 
-        return dict, R
+        return dictData, wantPart
+
+    def createTBList(self):
+        for classIndex in range(0, 10008):
+            tbIndex = TBclassification(classIndex)
+            tbList.append(tbIndex)
+
 
 FileLiSSSST = FileDir(fileList, None, None)
 unpickledfile, Data = FileLiSSSST.checkbatchandunpickle("data_batch_1", b'labels')
-print(Data)
-for file in listdir(location):
-    if file.startswith('data_batch_1'):
-        fileName = location + '/' + file
-        dict = unpickle(fileName)
-        d1 = dict[b'labels']
 
 tbList = []
+
+zoom = FileLiSSSST.createTBList()
+print(zoom)
 for file in listdir(location):
     if file.startswith('data_batch_1'):
         fileName = location + '/' + file

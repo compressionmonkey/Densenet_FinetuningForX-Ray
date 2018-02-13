@@ -38,16 +38,12 @@ def CreateFilename(indexFiles):
 
 # Test for converting Xray into Dictionary for pickling
 
-
 def TBclassification(indexAnnot):
-    returnValue = None
     fileName = listOfFiles[indexAnnot]
     fileType = ".png"
     if fileName.endswith(fileType):
         returnValue = int(fileName[12])
+        return returnValue
     else:
         print(fileName)
         print('Invalid file')
-        TBclassification(indexAnnot+1)
-
-    return returnValue
