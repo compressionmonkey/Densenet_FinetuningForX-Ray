@@ -68,15 +68,7 @@ tbList = []
 FileLiSSSST.createTBList()
 print(tbList)
 
-# d1 = tbList
-# dict[b'labels'] = d1
-
 FileLiSSSST.swapList(location + "/data_batch_1", b'labels', tbList)
-
-# pickle_out = open(fileName, "wb")
-# pickle.dump(dict, pickle_out)
-#
-# pickle_out.close()
 
 fileList = []
 FileLiSSSST.createXrayList()
