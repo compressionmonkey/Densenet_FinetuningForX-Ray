@@ -12,6 +12,7 @@ fileList = list(file for file in listdir(location))
 class FileDir:
     def __init__(self, fileList):
         self.FileList = fileList
+        # self.tbList = tbList
         # self.fileName = fileName
     def checkbatchandunpickle(self, filerequired, wantedSec):
         for file in listdir(location):
@@ -28,9 +29,12 @@ class FileDir:
             tbIndex = TBclassification(classIndex)
             tbList.append(tbIndex)
 
-    def swapTBList(self, filename):
-        wantPart = tbList
-        dict[b'labels'] = wantPart
+    def swapList(self, fileName, partrequired, usedList):
+        # wantPart = usedList
+        # self.tbList.append(u)
+        unpickledfile.update((partrequired, usedList))
+        # dict[partrequired] = usedList
+        # d.update((k, "value3")
         pickle_out = open(fileName, "wb")
         pickle.dump(dict, pickle_out)
         pickle_out.close()
@@ -40,6 +44,21 @@ class FileDir:
         for fileIndex in range(0, 10008):
             fileXrayIndex = CreateFilename(fileIndex)
             fileXrayIndex.append(fileList)
+
+    def collectPixels(self):
+        for imgIndex in range(0, 10008):
+            img = getImage(imgIndex)
+            if img != None:
+                imgConvert = img.convert("RGB")
+                imgResized = imgConvert.resize((32, 32))
+
+                imgData = list(imgResized.getdata())
+
+                red, green, blue = zip(*imgData)
+                channelArray = red + green + blue
+                image = list(channelArray)
+                print(imgIndex)
+                imageList.append(image)
 
 FileLiSSSST = FileDir(fileList)
 unpickledfile, Data = FileLiSSSST.checkbatchandunpickle("data_batch_1", b'labels')
@@ -52,7 +71,7 @@ print(tbList)
 # d1 = tbList
 # dict[b'labels'] = d1
 
-FileLiSSSST.swapTBList(location + "/data_batch_1")
+FileLiSSSST.swapList(location + "/data_batch_1", b'labels', tbList)
 
 # pickle_out = open(fileName, "wb")
 # pickle.dump(dict, pickle_out)
@@ -63,43 +82,10 @@ fileList = []
 FileLiSSSST.createXrayList()
 print(fileList)
 
+FileLiSSSST.swapList(location + "/data_batch_1", b'filenames', fileList)
 
-for file in listdir(location):
-    if file.startswith('data_batch_1'):
-        fileName = location + '/' + file
-        dict = unpickle(fileName)
-        d1 = dict[b'filenames']
-        for fileIndex in range(0, 10008):
-            fileXrayIndex = CreateFilename(fileIndex)
-            fileXrayIndex.append(fileList)
-
-d1 = fileList
-dict[b'filenames'] = d1
-pickle_out = open(fileName, "wb")
-pickle.dump(dict, pickle_out)
-
-pickle_out.close()
 
 imageList = []
-for imgIndex in range(0,10008):
-    img = getImage(imgIndex)
-    if img != None:
-
-        imgConvert = img.convert("RGB")
-        imgResized = imgConvert.resize((32, 32))
-
-        imgData = list(imgResized.getdata())
-
-        red, green, blue = zip(*imgData)
-        channelArray = red + green + blue
-        image =list(channelArray)
-        print(imgIndex)
-        imageList.append(image)
-
-# d1 = dict[b'data']
-d1 = imageList
-dict[b'data'] = d1
-pickle_out = open(fileName, "wb")
-pickle.dump(dict, pickle_out)
-
-pickle_out.close()
+FileLiSSSST.collectPixels()
+print(imageList)
+FileLiSSSST.swapList(location + "/data_batch_1", b'data', imageList)
