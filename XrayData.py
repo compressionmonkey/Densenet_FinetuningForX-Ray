@@ -4,22 +4,22 @@ import pickle
 from imageTransformer import getImage
 from Crawler_Annotation import TBclassification
 from Crawler_Annotation import CreateFilename
-location = "/Users/pc/Downloads/cifar-10-batches-py"
+location = "/Users/pc/Downloads/cifar-10-batches-py-copy1"
 ClinicalReadings = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
 # create a list of files in location
 fileList = list(file for file in listdir(location))
 
 class FileDir:
     def __init__(self, fileList):
-        self.FileList = fileList
-        # self.tbList = tbList
-        # self.fileName = fileName
+        self.fileList = fileList
     def checkbatchandunpickle(self, filerequired, wantedSec):
         for file in listdir(location):
             if file.startswith(filerequired):
                 fileName = location + '/' + file
                 dictData = unpickle(fileName)
-
+                # transferData = dictData[wantedSec]
+                # dictData[wantedSec] = transferData
+                # wantPart = transferData
                 wantPart = dictData[wantedSec]
 
         return dictData, wantPart
@@ -30,11 +30,8 @@ class FileDir:
             tbList.append(tbIndex)
 
     def swapList(self, fileName, partrequired, usedList):
-        # wantPart = usedList
-        # self.tbList.append(u)
-        unpickledfile.update((partrequired, usedList))
-        # dict[partrequired] = usedList
-        # d.update((k, "value3")
+        unpickledfile[partrequired] = usedList
+        print(unpickledfile[partrequired])
         pickle_out = open(fileName, "wb")
         pickle.dump(dict, pickle_out)
         pickle_out.close()
@@ -43,6 +40,7 @@ class FileDir:
         # d1 = dict[b'filenames']
         for fileIndex in range(0, 10008):
             fileXrayIndex = CreateFilename(fileIndex)
+            print(fileXrayIndex)
             fileXrayIndex.append(fileList)
 
     def collectPixels(self):

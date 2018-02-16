@@ -15,28 +15,6 @@ def CreateFilename(indexFiles):
         print(fileName)
         print('Invalid file')
 
-
-
-    # Input = "/Users/pc/Downloads/MontgomerySet/ClinicalReadings"
-    # FileList = []
-    # FileDict = {}
-    # for root, dirs, filenames in os.walk(Input):
-    #     # Create a number assigned to each filename in list for auto assigned tasks later on
-    #     for counter, value in enumerate(filenames):
-    #         # editing a directory properly that is indexed correctly in the list that it is
-    #         Location_File = root + '/' + filenames[counter]
-    #
-    #         FileList.append(Location_File)
-    #
-    #         with open(FileList[counter]) as file:
-    #             lines = file.readlines()
-    #             try:
-    #                 FileDict[counter].append(lines)
-    #             except KeyError:
-    #                 FileDict[counter] = [lines]
-    #                 print(FileDict)
-    #
-
 # Test for converting Xray into Dictionary for pickling
 
 def TBclassification(indexAnnot):
