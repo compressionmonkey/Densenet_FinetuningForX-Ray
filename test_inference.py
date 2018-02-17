@@ -26,7 +26,6 @@ if K.image_dim_ordering() == 'th':
 else:
   # Use pre-trained weights for Tensorflow backend
   weights_path = 'imagenet_models/densenet121_weights_tf.h5'
-
 # Insert a new dimension for the batch_size
 im = np.expand_dims(im, axis=0)
 

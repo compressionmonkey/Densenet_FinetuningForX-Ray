@@ -1,40 +1,26 @@
-# -*- coding: utf-8 -*-
-
-from keras.optimizers import SGD
+from keras.models import Model
 from keras.layers import Input, merge, ZeroPadding2D
 from keras.layers.core import Dense, Dropout, Activation
 from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import AveragePooling2D, GlobalAveragePooling2D, MaxPooling2D
 from keras.layers.normalization import BatchNormalization
-from keras.models import Model
 import keras.backend as K
 
+from custom_layers1 import Scale
 
-from sklearn.metrics import log_loss
-
-from custom_layers.scale_layer import Scale
-
-from load_Xray import load_XrayData
-
-def densenet121_model(img_rows, img_cols, color_type=1, nb_dense_block=4, growth_rate=32, nb_filter=64, reduction=0.5, dropout_rate=0.0, weight_decay=1e-4, num_classes=None):
-    '''
-    DenseNet 121 Model for Keras
-    Model Schema is based on
-    https://github.com/flyyufelix/DenseNet-Keras
-    ImageNet Pretrained Weights
-    Theano: https://drive.google.com/open?id=0Byy2AcGyEVxfMlRYb3YzV210VzQ
-    TensorFlow: https://drive.google.com/open?id=0Byy2AcGyEVxfSTA4SHJVOHNuTXc
-    # Arguments
-        nb_dense_block: number of dense blocks to add to end
-        growth_rate: number of filters to add per dense block
-        nb_filter: initial number of filters
-        reduction: reduction factor of transition blocks.
-        dropout_rate: dropout rate
-        weight_decay: weight decay factor
-        classes: optional number of classes to classify images
-        weights_path: path to pre-trained weights
-    # Returns
-        A Keras model instance.
+def DenseNet(nb_dense_block=4, growth_rate=32, nb_filter=64, reduction=0.0, dropout_rate=0.0, weight_decay=1e-4, classes=1000, weights_path=None):
+    '''Instantiate the DenseNet 121 architecture,
+        # Arguments
+            nb_dense_block: number of dense blocks to add to end
+            growth_rate: number of filters to add per dense block
+            nb_filter: initial number of filters
+            reduction: reduction factor of transition blocks.
+            dropout_rate: dropout rate
+            weight_decay: weight decay factor
+            classes: optional number of classes to classify images
+            weights_path: path to pre-trained weights
+        # Returns
+            A Keras model instance.
     '''
     eps = 1.1e-5
 
@@ -45,11 +31,10 @@ def densenet121_model(img_rows, img_cols, color_type=1, nb_dense_block=4, growth
     global concat_axis
     if K.image_dim_ordering() == 'tf':
       concat_axis = 3
-      img_input = Input(shape=(img_rows, img_cols, color_type), name='data')
-      print(img_input)
+      img_input = Input(shape=(224, 224, 3), name='data')
     else:
       concat_axis = 1
-      img_input = Input(shape=(color_type, img_rows, img_cols), name='data')
+      img_input = Input(shape=(3, 224, 224), name='data')
 
     # From architecture for ImageNet (Table 1 in the paper)
     nb_filter = 64
@@ -57,7 +42,6 @@ def densenet121_model(img_rows, img_cols, color_type=1, nb_dense_block=4, growth
 
     # Initial convolution
     x = ZeroPadding2D((3, 3), name='conv1_zeropadding')(img_input)
-    print(x)
     x = Convolution2D(nb_filter, 7, 7, subsample=(2, 2), name='conv1', bias=False)(x)
     x = BatchNormalization(epsilon=eps, axis=concat_axis, name='conv1_bn')(x)
     x = Scale(axis=concat_axis, name='conv1_scale')(x)
@@ -80,34 +64,15 @@ def densenet121_model(img_rows, img_cols, color_type=1, nb_dense_block=4, growth
     x = BatchNormalization(epsilon=eps, axis=concat_axis, name='conv'+str(final_stage)+'_blk_bn')(x)
     x = Scale(axis=concat_axis, name='conv'+str(final_stage)+'_blk_scale')(x)
     x = Activation('relu', name='relu'+str(final_stage)+'_blk')(x)
+    x = GlobalAveragePooling2D(name='pool'+str(final_stage))(x)
 
-    x_fc = GlobalAveragePooling2D(name='pool'+str(final_stage))(x)
-    x_fc = Dense(1000, name='fc6')(x_fc)
-    x_fc = Activation('softmax', name='prob')(x_fc)
+    x = Dense(classes, name='fc6')(x)
+    x = Activation('softmax', name='prob')(x)
 
-    model = Model(img_input, x_fc, name='densenet')
+    model = Model(img_input, x, name='densenet')
 
-    if K.image_dim_ordering() == 'th':
-      # Use pre-trained weights for Theano backend
-      weights_path = 'imagenet_models/densenet121_weights_th.h5'
-    else:
-      # Use pre-trained weights for Tensorflow backend
-      weights_path = 'imagenet_models/densenet121_weights_tf.h5'
-
-    model.load_weights(weights_path, by_name=True)
-
-    # Truncate and replace softmax layer for transfer learning
-    # Cannot use model.layers.pop() since model is not of Sequential() type
-    # The method below works since pre-trained weights are stored in layers but not in the model
-    x_newfc = GlobalAveragePooling2D(name='pool'+str(final_stage))(x)
-    x_newfc = Dense(num_classes, name='fc6')(x_newfc)
-    x_newfc = Activation('softmax', name='prob')(x_newfc)
-
-    model = Model(img_input, x_newfc)
-
-    # Learning rate is changed to 0.001
-    sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
-    model.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['accuracy'])
+    if weights_path is not None:
+      model.load_weights(weights_path)
 
     return model
 
@@ -204,33 +169,3 @@ def dense_block(x, stage, nb_layers, nb_filter, growth_rate, dropout_rate=None, 
 
     return concat_feat, nb_filter
 
-if __name__ == '__main__':
-
-    # Example to fine-tune on 3000 samples from Cifar10
-
-    img_rows, img_cols = 224, 224 # Resolution of inputs
-    channel = 3
-    num_classes = 10
-    batch_size = 16
-    nb_epoch = 1
-
-    # Load Cifar10 data. Please implement your own load_data() module for your own dataset
-    X_train, Y_train, X_valid, Y_valid = load_XrayData(img_rows, img_cols)
-
-    # Load our model
-    model = densenet121_model(img_rows=img_rows, img_cols=img_cols, color_type=channel, num_classes=num_classes)
-
-    # Start Fine-tuning
-    model.fit(X_train, Y_train,
-              batch_size=batch_size,
-              nb_epoch=nb_epoch,
-              shuffle=True,
-              verbose=1,
-              validation_data=(X_valid, Y_valid),
-              )
-
-    # Make predictions
-    predictions_valid = model.predict(X_valid, batch_size=batch_size, verbose=1)
-
-    # Cross-entropy loss score
-    score = log_loss(Y_valid, predictions_valid)
