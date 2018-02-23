@@ -5,7 +5,6 @@ from keras.layers.convolutional import Convolution2D
 from keras.layers.pooling import AveragePooling2D, GlobalAveragePooling2D, MaxPooling2D
 from keras.layers.normalization import BatchNormalization
 import keras.backend as K
-
 from custom_layers1 import Scale
 
 def DenseNet(nb_dense_block=4, growth_rate=32, nb_filter=64, reduction=0.0, dropout_rate=0.0, weight_decay=1e-4, classes=1000, weights_path=None):
@@ -70,7 +69,6 @@ def DenseNet(nb_dense_block=4, growth_rate=32, nb_filter=64, reduction=0.0, drop
     x = Activation('softmax', name='prob')(x)
 
     model = Model(img_input, x, name='densenet')
-
     if weights_path is not None:
       model.load_weights(weights_path)
 
