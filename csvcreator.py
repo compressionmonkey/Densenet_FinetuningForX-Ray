@@ -1,13 +1,20 @@
 from os import listdir
 import cv2
+import pandas as pd
 fileDir = "/Users/pc/Downloads/ChinaSet_AllFiles/CXR_png"
 
 listOfFiles = listdir(fileDir)
 
+# fileName = listOfFiles[1]
+# fileType = ".png"
+# for fileNameExact in listOfFiles:
+#     if fileNameExact.endswith(fileType):
+#         returnValue = int(fileNameExact[12])
+#         print(fileNameExact, returnValue)
 def CreateCSV(indexFiles):
     # We want to create a dictionary to number and list out all of our values i.e patient annotation details
     fileIndex = 0
-    fileName = listOfFiles[indexFiles]
+    # fileName = listOfFiles[indexFiles]
     fileType = ".png"
     for fileNameExact in listOfFiles:
         if fileNameExact.endswith(fileType):
@@ -19,42 +26,69 @@ def CreateCSV(indexFiles):
         # print(fileName)
         # print('Invalid file')
 
-fileList = []
-TBList = []
-for fileIndex in range(1,len(listOfFiles)):
-    print(fileIndex)
-    fileFullName, TBbinary = CreateCSV(fileIndex)
-    print(fileFullName, TBbinary)
-    fileList.append(fileFullName)
-    TBList.append(TBbinary)
+# fileList = []
+# TBList = []
+# for fileIndex in range(1,len(listOfFiles)):
+#     print(fileIndex)
+#     fileFullName, TBbinary = CreateCSV(fileIndex)
+#     print(fileFullName, TBbinary)
+#     fileList.append(fileFullName)
+#     TBList.append(TBbinary)
+#
+# print(TBList)
 
-print(fileList)
+# f = pd.DataFrame(data = {'FileName':"-", 'TBBinary':"-", 'TotalPixelsL': "-", 'TotalPixelsR': "-"})
 
-img = cv2.imread('/Users/pc/Downloads/ChinaSet_AllFiles/CXR_png/CHNCXR_0001_0.png',0)
+fileType = ".png"
+for img in listOfFiles:
+    for num in range(1, len(listOfFiles)):
 
-img2 = img.copy()
+        currentFile = listOfFiles[num]
+        fileName = fileDir + '/' + currentFile
+        img = cv2.imread(fileName,0)
 
-sumOfPixelsLeft = 0
-sumOfPixelsRight = 0
-count = 0
-for pixelrow in img2:
-    for pixel in pixelrow:
+        img2 = img.copy()
 
-        count += 1
-        if count <= 1500:
-            sumOfPixelsLeft += pixel
-            print(pixel)
-        else:
-            sumOfPixelsRight += pixel
+        sumOfPixelsLeft = 0
+        sumOfPixelsRight = 0
+        count = 0
+        for pixelrow in img2:
+            for pixel in pixelrow:
 
-
-print(sumOfPixelsLeft, sumOfPixelsRight)
+                count += 1
+                if count <= 1500:
+                    sumOfPixelsLeft += pixel
+                else:
+                    sumOfPixelsRight += pixel
 
 
+        if img.endswith(fileType):
+            returnValue = int(img[12])
+            fileFullName, TBbinary = img, returnValue
+        if fileName == "NoneType":
+            break
+
+        # fileFullName, TBbinary = CreateCSV(num)
+        print(fileFullName, TBbinary)
+        f = pd.DataFrame(data={'FileName': [fileFullName], 'TBBinary': [TBbinary], 'TotalPixelsL': sumOfPixelsLeft, 'TotalPixelsR': sumOfPixelsRight})
+        # f.append({'FileName': [fileFullName], 'TBBinary': [TBbinary], 'TotalPixelsL': sumOfPixelsLeft, 'TotalPixelsR': sumOfPixelsRight}, ignore_index=True)
+f.to_csv('imagedata.csv', index=False)
+        # print(sumOfPixelsLeft, sumOfPixelsRight)
+
+
+
+# csv_input = pd.read_csv('imagedata.csv')
+# for fileIndex in range(len(listOfFiles)):
+#     fileFullName, TBbinary = CreateCSV(fileIndex)
+#     print(fileFullName, TBbinary)
+#     f = pd.DataFrame(data = {'FileName':[fileFullName], 'TBBinary':[TBbinary], })
+# # f.append({'FileName':[fileFullName], 'TBBinary':[TBbinary]}, ignore_index=True)
+# # csv_input['Berries'] = csv_input['Name']
+# f.to_csv('imagedata.csv', index=False)
 import csv
-changes = ['Dorji', 'Kelden']
+# changes = fileList, TBList
 
-new_rows = []
+# new_rows = []
 # with open('imagedata.csv', 'r') as File:
 #     reader = csv.reader(File)
 #     for row in reader:
@@ -65,8 +99,45 @@ new_rows = []
 #             print(new_row)
 #         new_rows.append(new_row)
 
-with open('imagedata.csv', 'a') as File:
+# fileList = []
+# TBList = []
+# for fileIndex in range(1,len(listOfFiles)):
+#     print(fileIndex)
+#     fileFullName, TBbinary = CreateCSV(fileIndex)
+#     print(fileFullName, TBbinary)
+#     fileList.append(fileFullName)
+#     TBList.append(TBbinary)
 
-    writer = csv.writer(File)
-    writer.writerows([changes])
+
+
+
+# >>> print row0
+# ['Name', 'Code', 'berry']
+# >>> for item in r:
+# ...     item.append(item[0])
+# ...     print item
+# ...
+# ['blackberry', '1', 'blackberry']
+# ['wineberry', '2', 'wineberry']
+# ['rasberry', '1', 'rasberry']
+# ['blueberry', '1', 'blueberry']
+# ['mulberry', '2', 'mulberry']
+
+# with open('imagedata.csv', 'a') as File:
+#     r = csv.reader(File)
+#     row0 = r.next()
+#     row0.append('berry')
+#     # writer = csv.writer(File)
+#     for fileIndex in range(1, len(listOfFiles)):
+#         fileFullName, TBbinary = CreateCSV(fileIndex)
+#         print(fileFullName, TBbinary)
+        # writer.writerows([[fileFullName], [TBbinary]])
+
+
+
+
+# >>> f
+#   Animal Color
+# 0    cow  blue
+# 1  horse   red
 
