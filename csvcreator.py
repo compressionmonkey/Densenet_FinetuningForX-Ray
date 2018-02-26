@@ -4,73 +4,101 @@ import pandas as pd
 fileDir = "/Users/pc/Downloads/ChinaSet_AllFiles/CXR_png"
 
 listOfFiles = listdir(fileDir)
+print(listOfFiles)
+class CSV():
+    def __init__(self, listOfFiles):
+        self.listOfFiles = listOfFiles
 
-# fileName = listOfFiles[1]
-# fileType = ".png"
-# for fileNameExact in listOfFiles:
-#     if fileNameExact.endswith(fileType):
-#         returnValue = int(fileNameExact[12])
-#         print(fileNameExact, returnValue)
-def CreateCSV(indexFiles):
-    # We want to create a dictionary to number and list out all of our values i.e patient annotation details
-    fileIndex = 0
-    # fileName = listOfFiles[indexFiles]
-    fileType = ".png"
-    for fileNameExact in listOfFiles:
-        if fileNameExact.endswith(fileType):
-            returnValue = int(fileNameExact[12])
-            return fileNameExact, returnValue
-        if fileName == "NoneType":
-        # fileIndex += 1
-            break
-        # print(fileName)
-        # print('Invalid file')
+    # def TBclassification(indexAnnot):
+    #     fileName = listOfFiles[indexAnnot]
+    #     fileType = ".png"
+    #     if fileName.endswith(fileType):
+    #         returnValue = int(fileName[12])
+    #         return returnValue
+    #     else:
+    #         print(fileName)
+    #         print('Invalid file')
+    #
+    # def createTBList(self):
+    #     for classIndex in range(0, 10008):
+    #         tbIndex = TBclassification(classIndex)
+    #         tbList.append(tbIndex)
 
-# fileList = []
-# TBList = []
-# for fileIndex in range(1,len(listOfFiles)):
-#     print(fileIndex)
-#     fileFullName, TBbinary = CreateCSV(fileIndex)
-#     print(fileFullName, TBbinary)
-#     fileList.append(fileFullName)
-#     TBList.append(TBbinary)
-#
-# print(TBList)
-
-# f = pd.DataFrame(data = {'FileName':"-", 'TBBinary':"-", 'TotalPixelsL': "-", 'TotalPixelsR': "-"})
-
-fileType = ".png"
-for img in listOfFiles:
-    if img.endswith(fileType):
-        returnValue = int(img[12])
-        fileFullName, TBbinary = img, returnValue
-        print(fileFullName, TBbinary)
-        for num in range(1, len(listOfFiles)):
-
+    def FindFileBin(self):
+        fileType = ".png"
+        tbList = []
+        for num in range(1, len(listOfFiles) - 1):
             currentFile = listOfFiles[num]
             fileName = fileDir + '/' + currentFile
-            img = cv2.imread(fileName, 0)
+            # for fileNameExact in listOfFiles:
+            if currentFile.endswith(fileType):
+                returnValue = int(currentFile[12])
+                tbList.append(returnValue)
+                if num == 662:
+                    return tbList
 
-            img2 = img.copy()
+            if fileName == "NoneType":
+                break
+    def FindFile(self):
+        fileType = ".png"
+        fileList = []
+        for num in range(1, len(listOfFiles) - 1):
+            currentFile = listOfFiles[num]
+            fileName = fileDir + '/' + currentFile
+            # for fileNameExact in listOfFiles:
+            if currentFile.endswith(fileType):
+                returnValue = fileName
+                fileList.append(returnValue)
+                if num == 662:
+                    return fileList
 
-            sumOfPixelsLeft = 0
-            sumOfPixelsRight = 0
-            count = 0
-            for pixelrow in img2:
-                for pixel in pixelrow:
+            if fileName == "NoneType":
+                break
+            # return tbList
+    def Twosides(self):
+        fileType = ".png"
+        for img in listOfFiles:
+            if img.endswith(fileType):
+                # returnValue = int(img[12])
+                # fileFullName, TBbinary = img, returnValue
+                # print(fileFullName, TBbinary)
+                for num in range(1, len(listOfFiles) - 1):
 
-                    count += 1
-                    if count <= 1500:
-                        sumOfPixelsLeft += pixel
-                    else:
-                        sumOfPixelsRight += pixel
+                    currentFile = listOfFiles[num]
+                    fileName = fileDir + '/' + currentFile
+                    img = cv2.imread(fileName, 0)
+
+                    img2 = img.copy()
+
+                    sumOfPixelsLeft = 0
+                    sumOfPixelsRight = 0
+                    count = 0
+                    for pixelrow in img2:
+                        for pixel in pixelrow:
+
+                            count += 1
+                            if count <= 1500:
+                                sumOfPixelsLeft += pixel
+                            else:
+                                sumOfPixelsRight += pixel
+
+                    print(pixelrow, sumOfPixelsLeft, sumOfPixelsRight)
+                    if img == "NoneType":
+                        break
+
+csvObject = CSV(listOfFiles)
+binList = csvObject.FindFileBin()
+dirList = csvObject.FindFile()
+pixels = csvObject.Twosides()
+print(pixels)
+# listOfFiles
+
 
         # fileFullName, TBbinary = CreateCSV(num)
-        print(fileFullName, TBbinary)
-        f = pd.DataFrame(data={'FileName': [fileFullName], 'TBBinary': [TBbinary], 'TotalPixelsL': [sumOfPixelsLeft], 'TotalPixelsR': [sumOfPixelsRight]})
+        # print(fileFullName, TBbinary)
+        # f = pd.DataFrame(data={'FileName': [fileFullName], 'TBBinary': [TBbinary], 'TotalPixelsL': [sumOfPixelsLeft], 'TotalPixelsR': [sumOfPixelsRight]})
 
-    if img == "NoneType":
-        break
+
 
 
 
@@ -78,7 +106,7 @@ for img in listOfFiles:
 
 
         # f.append({'FileName': [fileFullName], 'TBBinary': [TBbinary], 'TotalPixelsL': sumOfPixelsLeft, 'TotalPixelsR': sumOfPixelsRight}, ignore_index=True)
-f.to_csv('imagedata.csv', index=False)
+# f.to_csv('imagedata.csv', index=False)
         # print(sumOfPixelsLeft, sumOfPixelsRight)
 
 
@@ -91,7 +119,6 @@ f.to_csv('imagedata.csv', index=False)
 # # f.append({'FileName':[fileFullName], 'TBBinary':[TBbinary]}, ignore_index=True)
 # # csv_input['Berries'] = csv_input['Name']
 # f.to_csv('imagedata.csv', index=False)
-import csv
 # changes = fileList, TBList
 
 # new_rows = []
