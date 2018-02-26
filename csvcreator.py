@@ -41,36 +41,42 @@ def CreateCSV(indexFiles):
 
 fileType = ".png"
 for img in listOfFiles:
-    for num in range(1, len(listOfFiles)):
+    if img.endswith(fileType):
+        returnValue = int(img[12])
+        fileFullName, TBbinary = img, returnValue
+        print(fileFullName, TBbinary)
+        for num in range(1, len(listOfFiles)):
 
-        currentFile = listOfFiles[num]
-        fileName = fileDir + '/' + currentFile
-        img = cv2.imread(fileName,0)
+            currentFile = listOfFiles[num]
+            fileName = fileDir + '/' + currentFile
+            img = cv2.imread(fileName, 0)
 
-        img2 = img.copy()
+            img2 = img.copy()
 
-        sumOfPixelsLeft = 0
-        sumOfPixelsRight = 0
-        count = 0
-        for pixelrow in img2:
-            for pixel in pixelrow:
+            sumOfPixelsLeft = 0
+            sumOfPixelsRight = 0
+            count = 0
+            for pixelrow in img2:
+                for pixel in pixelrow:
 
-                count += 1
-                if count <= 1500:
-                    sumOfPixelsLeft += pixel
-                else:
-                    sumOfPixelsRight += pixel
-
-
-        if img.endswith(fileType):
-            returnValue = int(img[12])
-            fileFullName, TBbinary = img, returnValue
-        if fileName == "NoneType":
-            break
+                    count += 1
+                    if count <= 1500:
+                        sumOfPixelsLeft += pixel
+                    else:
+                        sumOfPixelsRight += pixel
 
         # fileFullName, TBbinary = CreateCSV(num)
         print(fileFullName, TBbinary)
-        f = pd.DataFrame(data={'FileName': [fileFullName], 'TBBinary': [TBbinary], 'TotalPixelsL': sumOfPixelsLeft, 'TotalPixelsR': sumOfPixelsRight})
+        f = pd.DataFrame(data={'FileName': [fileFullName], 'TBBinary': [TBbinary], 'TotalPixelsL': [sumOfPixelsLeft], 'TotalPixelsR': [sumOfPixelsRight]})
+
+    if img == "NoneType":
+        break
+
+
+
+
+
+
         # f.append({'FileName': [fileFullName], 'TBBinary': [TBbinary], 'TotalPixelsL': sumOfPixelsLeft, 'TotalPixelsR': sumOfPixelsRight}, ignore_index=True)
 f.to_csv('imagedata.csv', index=False)
         # print(sumOfPixelsLeft, sumOfPixelsRight)
