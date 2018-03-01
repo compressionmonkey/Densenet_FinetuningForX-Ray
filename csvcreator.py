@@ -55,13 +55,10 @@ class CSV():
             if fileName == "NoneType":
                 break
             # return tbList
-    def Twosides(self):
+    def Twosides(self,):
         fileType = ".png"
         for img in listOfFiles:
             if img.endswith(fileType):
-                # returnValue = int(img[12])
-                # fileFullName, TBbinary = img, returnValue
-                # print(fileFullName, TBbinary)
                 for num in range(1, len(listOfFiles) - 1):
 
                     currentFile = listOfFiles[num]
@@ -69,10 +66,13 @@ class CSV():
                     img = cv2.imread(fileName, 0)
 
                     img2 = img.copy()
-
+                    print(img2)
+                    # Makes a copy
                     sumOfPixelsLeft = 0
                     sumOfPixelsRight = 0
                     count = 0
+                    updatedImgRow = []
+                    updatedImg = []
                     for pixelrow in img2:
                         for pixel in pixelrow:
 
@@ -82,7 +82,14 @@ class CSV():
                             else:
                                 sumOfPixelsRight += pixel
 
-                    print(pixelrow, sumOfPixelsLeft, sumOfPixelsRight)
+                        updatedImgRow.append([sumOfPixelsLeft,sumOfPixelsRight])
+
+                    print(updatedImgRow[0][0])
+                    for x in currentFile:
+                        updatedImg.append(updatedImgRow)
+
+                    print(updatedImg)
+                    # return updatedImg
                     if img == "NoneType":
                         break
 
@@ -91,7 +98,6 @@ binList = csvObject.FindFileBin()
 dirList = csvObject.FindFile()
 pixels = csvObject.Twosides()
 print(pixels)
-# listOfFiles
 
 
         # fileFullName, TBbinary = CreateCSV(num)
