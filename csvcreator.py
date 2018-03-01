@@ -83,7 +83,16 @@ class CSV():
                                 sumOfPixelsRight += pixel
 
                         updatedImgRow.append([sumOfPixelsLeft,sumOfPixelsRight])
-
+                    # Sum = 0
+                    for Sum in range(len(updatedImgRow)):
+                        if Sum < len(updatedImgRow):
+                            Total = updatedImgRow[Sum][0] + updatedImgRow[Sum+1][0]
+                            print(Total)
+                        else:
+                            break
+                        # sum(updatedImgRow[Sum][0])
+                    # Total = updatedImgRow[sum][0] + updatedImgRow[n-1][0]
+                    # updatedImgRow[n][]
                     print(updatedImgRow[0][0])
                     for x in currentFile:
                         updatedImg.append(updatedImgRow)
