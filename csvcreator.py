@@ -68,17 +68,20 @@ class CSV():
                     img2 = img.copy()
                     print(img2)
                     # Makes a copy
-                    sumOfPixelsLeft = 0
-                    sumOfPixelsRight = 0
-                    count = 0
+
+
                     updatedImgRow = []
                     updatedImg = []
                     for pixelrow in img2:
+                        sumOfPixelsLeft = 0
+                        sumOfPixelsRight = 0
+                        count = 0
                         for pixel in pixelrow:
 
                             count += 1
                             if count <= 1500:
                                 sumOfPixelsLeft += pixel
+                                print(sumOfPixelsLeft)
                             else:
                                 sumOfPixelsRight += pixel
 
@@ -86,8 +89,10 @@ class CSV():
                     # Sum = 0
                     for Sum in range(len(updatedImgRow)):
                         if Sum < len(updatedImgRow):
-                            Total = updatedImgRow[Sum][0] + updatedImgRow[Sum+1][0]
-                            print(Total)
+                            print(updatedImgRow[Sum][0])
+                            print(updatedImgRow[Sum+1][0])
+                            # Total = updatedImgRow[Sum][0] + updatedImgRow[Sum+1][0]
+                            # print(Total)
                         else:
                             break
                         # sum(updatedImgRow[Sum][0])
