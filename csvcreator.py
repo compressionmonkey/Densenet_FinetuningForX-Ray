@@ -81,24 +81,28 @@ class CSV():
                             count += 1
                             if count <= 1500:
                                 sumOfPixelsLeft += pixel
-                                print(sumOfPixelsLeft)
                             else:
                                 sumOfPixelsRight += pixel
 
                         updatedImgRow.append([sumOfPixelsLeft,sumOfPixelsRight])
-                    # Sum = 0
+                    updatedSumLeft = []
+                    updatedSumRight = []
                     for Sum in range(len(updatedImgRow)):
                         if Sum < len(updatedImgRow):
-                            print(updatedImgRow[Sum][0])
-                            print(updatedImgRow[Sum+1][0])
-                            # Total = updatedImgRow[Sum][0] + updatedImgRow[Sum+1][0]
-                            # print(Total)
+
+                            if Sum == 2917:
+                                break
+                            updatedImgRowLeft = updatedImgRow[Sum][0] + updatedImgRow[Sum+1][0]
+                            updatedImgRowRight = updatedImgRow[Sum][1] + updatedImgRow[Sum+1][1]
+                            updatedSumLeft.append(updatedImgRowLeft)
+                            updatedSumRight.append(updatedImgRowRight)
+                            # for totalSum in updatedSum:
+                            totalSumLeft = sum(updatedSumLeft)
+                            totalSumRight = sum(updatedSumRight)
+                            print(totalSumLeft)
+                            print(totalSumRight)
                         else:
                             break
-                        # sum(updatedImgRow[Sum][0])
-                    # Total = updatedImgRow[sum][0] + updatedImgRow[n-1][0]
-                    # updatedImgRow[n][]
-                    print(updatedImgRow[0][0])
                     for x in currentFile:
                         updatedImg.append(updatedImgRow)
 
