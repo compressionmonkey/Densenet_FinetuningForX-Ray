@@ -101,6 +101,7 @@ class CSV():
                         totalSumRight = sum(updatedSumRight)
                         print(totalSumLeft)
                         print(totalSumRight)
+                        # asa
                     for x in currentFile:
                         updatedImg.append(updatedImgRow)
 
