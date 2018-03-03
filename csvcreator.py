@@ -88,21 +88,19 @@ class CSV():
                     updatedSumLeft = []
                     updatedSumRight = []
                     for Sum in range(len(updatedImgRow)):
-                        if Sum < len(updatedImgRow):
+                        # if Sum < len(updatedImgRow):
 
-                            if Sum == 2917:
-                                break
-                            updatedImgRowLeft = updatedImgRow[Sum][0] + updatedImgRow[Sum+1][0]
-                            updatedImgRowRight = updatedImgRow[Sum][1] + updatedImgRow[Sum+1][1]
-                            updatedSumLeft.append(updatedImgRowLeft)
-                            updatedSumRight.append(updatedImgRowRight)
-                            # for totalSum in updatedSum:
-                            totalSumLeft = sum(updatedSumLeft)
-                            totalSumRight = sum(updatedSumRight)
-                            print(totalSumLeft)
-                            print(totalSumRight)
-                        else:
+                        if Sum == 2917:
                             break
+                        updatedSumLeft.append(updatedImgRow[Sum][0])
+                        updatedSumRight.append(updatedImgRow[Sum][1])
+                            # for totalSum in updatedSum:
+
+
+                        totalSumLeft = sum(updatedSumLeft)
+                        totalSumRight = sum(updatedSumRight)
+                        print(totalSumLeft)
+                        print(totalSumRight)
                     for x in currentFile:
                         updatedImg.append(updatedImgRow)
 
