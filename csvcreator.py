@@ -85,16 +85,11 @@ class CSV():
                                 sumOfPixelsRight += pixel
 
                         updatedImgRow.append([sumOfPixelsLeft,sumOfPixelsRight])
-                    updatedSumLeft = []
+                    updatedSumLeft = 0
                     updatedSumRight = []
-                    for Sum in range(len(updatedImgRow)):
-                        # if Sum < len(updatedImgRow):
-
-                        if Sum == 2917:
-                            break
-                        updatedSumLeft.append(updatedImgRow[Sum][0])
-                        updatedSumRight.append(updatedImgRow[Sum][1])
-                            # for totalSum in updatedSum:
+                    for index in range(len(updatedImgRow)):
+                        updatedSumLeft = (updatedImgRow[index][0])
+                        updatedSumRight = (updatedImgRow[index][1])
 
 
                         totalSumLeft = sum(updatedSumLeft)
@@ -112,10 +107,15 @@ class CSV():
 
 csvObject = CSV(listOfFiles)
 binList = csvObject.FindFileBin()
+
+
 dirList = csvObject.FindFile()
 pixels = csvObject.Twosides()
 print(pixels)
 
+name of file,left,sumofRight
+file1,790000,6900000
+file2,777,888
 
         # fileFullName, TBbinary = CreateCSV(num)
         # print(fileFullName, TBbinary)
